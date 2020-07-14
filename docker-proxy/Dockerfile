@@ -15,4 +15,11 @@ FROM nginx
 ######################################################
 
 RUN rm /etc/nginx/conf.d/*
-COPY configuration/dev.conf /etc/nginx/conf.d/nginx.conf
+COPY config/nginx.conf /etc/nginx/conf.d/nginx.conf
+
+######################################################
+# Let's copy our own (custom) nginx index file
+######################################################
+
+RUN mkdir /etc/nginx/html
+COPY config/index.html /etc/nginx/html/index.html
