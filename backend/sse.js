@@ -10,7 +10,7 @@ module.exports = {
             if(clients) {
                 clients.forEach(client => {
                     //format response text as SSE protocol mandates: data: ****
-                    client.response.write(`\ndata: ${JSON.stringify(employees)}\n\n`);
+                    client.response.write(`\ndata: ${JSON.stringify({employees})}\n\n`);
                 });
             }
         } catch (error) {
@@ -32,7 +32,7 @@ module.exports = {
             res.write(`\ndata: ${JSON.stringify(employees)}\n\n`);
 
             const id = uuid.v1();
-            await clientManager.add({id: id, response: res});
+            clientManager.add({id: id, response: res});
 
             req.on('close', async () => {
                 console.warn(`Client ID: ${id} - Connection closed`);

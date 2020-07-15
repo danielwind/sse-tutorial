@@ -5,7 +5,7 @@ const redis = require('./redis');
 const sse = require('./sse');
 
 const api = express();
-api.use(cors());
+api.use(cors({origin: '*'}));
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({extended: false}));
 
