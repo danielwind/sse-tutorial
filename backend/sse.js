@@ -10,7 +10,7 @@ module.exports = {
             if(clients) {
                 clients.forEach(client => {
                     //format response text as SSE protocol mandates: data: ****
-                    client.response.write(`\ndata: ${JSON.stringify({employees})}\n\n`);
+                    client.response.write(`\ndata: ${JSON.stringify(employees)}\n\n`);
                 });
             }
         } catch (error) {

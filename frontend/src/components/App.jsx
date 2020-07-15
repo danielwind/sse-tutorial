@@ -12,7 +12,7 @@ const App = () => {
   // listen = flag to avoid unnecessary re-renders/subs
   //---------------------------------------------------
   const [employees, setEmployees] = useState([]);
-  const [listen, setListen] = useState(false);
+  const [listener, setListener] = useState(false);
   
   //-----------------------------------
   // hook to perform side effects
@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
 
 
-    if(!listen){
+    if(!listener){
 
         //----------------------------------------------------
         // use the EventSource API to subscribe to our API events
@@ -38,7 +38,8 @@ const App = () => {
         // as well. Here, we just repopulate the employees.
         //-----------------------------------------------------
         sourceEvents.onmessage = (sourceEvent) => {
-            console.log(sourceEvent.data)
+            console.log(`raw data: ${sourceEvent.data}`);
+            console.log(`parsed data: ${JSON.parse(sourceEvent.data)}`);
             setEmployees(JSON.parse(sourceEvent.data));
         };
 
@@ -47,10 +48,10 @@ const App = () => {
         // turn on flag to avoid multiple renders 
         // and subscriptions
         //----------------------------------------
-        setListen(true);
+        setListener(true);
     }
     
-  }, [employees]);
+  }, [employees, listener]);
 
   
   //----------------------------------------------------
@@ -60,6 +61,7 @@ const App = () => {
   // purposes only...
   //----------------------------------------------------
   const getEmployeesAsJSON = () => {
+    if(!employees) { return [];}
     return employees.map((name, index) => {
        return {name: name, id: index }
     });
@@ -70,7 +72,6 @@ const App = () => {
   // Helper function to render a bootstrap table2
   //---------------------------------------------
   const render = () => {
-
 
     const columns = [
         {
